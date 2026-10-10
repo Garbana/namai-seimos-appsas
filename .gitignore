@@ -1,0 +1,28 @@
+# Priklausomybės ir sukompiliuoti failai
+node_modules/
+dist/
+.wrangler/
+
+# Raktai ir slaptažodžiai — tik vietoje ir Cloudflare paslaptyse
+.env
+.dev.vars
+
+# Šeimos duomenys: klausimyno atsakymai ir iš jų sugeneruotas SQL
+seima.json
+backend/seima.sql
+
+# Banko išrašai ir kiti šeimos finansų dokumentai — į git nekeliami
+*.csv
+*.xlsx
+# ...bet anoniminiai testų pavyzdžiai reikalingi
+!backend/test/fixtures/*.csv
+
+# Google paslaugos paskyros raktas (jei atsitiktinai atsidūrė projekte)
+*service-account*.json
+
+# OS / redaktoriai
+.DS_Store
+Thumbs.db
+
+# Šeimos dokumentai (sutartys, ataskaitos) ir iš jų sugeneruotas SQL — žr. docs/FINANSAI.md
+asmeniniai/

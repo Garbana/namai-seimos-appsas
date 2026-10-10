@@ -1,0 +1,636 @@
+/*
+ * Darbų skilties ir naujos navigacijos stiliai. Spalvos — tik iš App.css kintamųjų,
+ * tad šviesi ir tamsi temos veikia savaime.
+ */
+
+/* ---------- Navigacija ---------- */
+
+.meniu-antraste {
+  margin: 14px 12px 4px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--silpnas);
+}
+
+/* Poskiltys (Užduotys · Pirkiniai, Apžvalga · Biudžetas…) — tik telefone; kompiuteryje
+   jos ir taip matyti šoninėje juostoje. */
+.poskiltys {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .poskiltys {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    max-width: 100%;
+    margin-bottom: 14px;
+  }
+
+  .poskiltys button {
+    flex: 1 0 auto;
+  }
+}
+
+/* ---------- Ekranų karkasas ---------- */
+
+.siandien,
+.uzduotys,
+.pirkiniai,
+.pranesimai {
+  display: grid;
+  gap: 14px;
+  max-width: 760px;
+}
+
+.siandien-virsus {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.siandien-data {
+  margin: 0;
+  color: var(--silpnas);
+  font-size: 15px;
+}
+
+.siandien-korteles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+.siandien-tuscia {
+  padding: 12px;
+}
+
+.veluoja-grupe {
+  border-color: var(--klaida);
+}
+
+.veluoja-grupe h2 {
+  color: var(--klaida);
+}
+
+/* ---------- Įvedimo laukai ---------- */
+
+.uzd-greitai {
+  display: flex;
+  gap: 8px;
+}
+
+.uzd-greitai input,
+.sritis-eilute input,
+.sritis-eilute select,
+.uzd-prideti input {
+  min-width: 0;
+  font: inherit;
+  padding: 9px 12px;
+  border: 1px solid var(--remas);
+  border-radius: 10px;
+  background: var(--fonas);
+  color: var(--tekstas);
+}
+
+.uzd-greitai input:first-child {
+  flex: 1;
+}
+
+.uzd-greitai .pirk-kiekis {
+  width: 84px;
+}
+
+.uzd-valdikliai {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+/* ---------- Užduočių sąrašas ---------- */
+
+.uzd-grupe h2 span {
+  margin-right: 4px;
+}
+
+.uzd-sarasas {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.uzd-eilute {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+}
+
+.uzd-eilute + .uzd-eilute {
+  border-top: 1px solid var(--remas);
+}
+
+/* Didelis paspaudimo plotas, mažas apskritimas viduje. */
+.uzd-zyme {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin: -6px -4px -6px -8px;
+  padding: 0;
+  border-radius: 999px;
+  background: transparent;
+}
+
+.uzd-zyme span {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--silpnas);
+  border-radius: 999px;
+  color: var(--ant-pirmines);
+  font-size: 12px;
+  line-height: 1;
+}
+
+.uzd-zyme:hover span {
+  border-color: var(--pirmine);
+}
+
+.atlikta .uzd-zyme span {
+  background: var(--pirmine);
+  border-color: var(--pirmine);
+}
+
+.uzd-tekstas {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+  padding: 4px 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--tekstas);
+  font-weight: 400;
+  text-align: left;
+}
+
+.uzd-pavadinimas {
+  flex: 1;
+  min-width: 0;
+  font-size: 15px;
+  overflow-wrap: anywhere;
+}
+
+.atlikta .uzd-pavadinimas {
+  color: var(--silpnas);
+  text-decoration: line-through;
+}
+
+.uzd-svarbu {
+  margin-right: 6px;
+  color: var(--akcentas);
+  font-weight: 700;
+}
+
+.uzd-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 10px;
+  color: var(--silpnas);
+  font-size: 12.5px;
+}
+
+.uzd-meta:empty {
+  display: none;
+}
+
+.uzd-meta .veluoja {
+  color: var(--klaida);
+  font-weight: 600;
+}
+
+.uzd-narys {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.uzd-atliktos {
+  display: grid;
+  gap: 8px;
+  padding: 0 4px;
+}
+
+.uzd-atliktos .linkish {
+  justify-self: start;
+  color: var(--silpnas);
+  text-decoration: none;
+}
+
+/* ---------- Užduoties langas ---------- */
+
+.modal textarea {
+  font: inherit;
+  padding: 8px;
+  border: 1px solid var(--remas);
+  border-radius: 7px;
+  background: var(--fonas);
+  color: var(--tekstas);
+  resize: vertical;
+}
+
+.uzd-dialogas {
+  max-width: 480px;
+}
+
+.uzd-du-laukai {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.uzd-du-laukai > label {
+  min-width: 0;
+}
+
+.uzd-dienos button {
+  min-width: 36px;
+}
+
+.uzd-pouzduotys {
+  display: grid;
+  gap: 6px;
+}
+
+.uzd-pouzduotys-antraste {
+  font-size: 13px;
+  color: var(--silpnas);
+}
+
+.uzd-pouzduotys ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.uzd-pouzduotys li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--tekstas);
+  font-size: 14px;
+}
+
+.modal .uzd-pouzduotys label.check {
+  color: var(--tekstas);
+  font-size: 14px;
+  gap: 8px;
+}
+
+.uzd-prideti {
+  display: flex;
+  gap: 6px;
+}
+
+.uzd-prideti input {
+  flex: 1;
+  padding: 7px 10px;
+}
+
+.modal-mygtukai .uzd-trinti {
+  margin-right: auto;
+  color: var(--klaida);
+}
+
+.uzd-priminimai {
+  display: grid;
+  gap: 6px;
+}
+
+.uzd-priminimai .paaiskinimas {
+  margin: 0;
+}
+
+/* ---------- Pirkiniai ---------- */
+
+.pirk-skaicius {
+  margin-left: 6px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--pirmine-svelni);
+  color: var(--pirmine);
+  font-size: 11px;
+}
+
+.pirk-kiekis-tekstas,
+.pirk-kas {
+  color: var(--silpnas);
+}
+
+.pirk-kas {
+  flex: none;
+  font-size: 11px;
+}
+
+/* ---------- Sritys ---------- */
+
+.sritys-sarasas {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sritis-eilute {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) 140px auto;
+  gap: 8px;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.sritis-eilute + .sritis-eilute {
+  border-top: 1px solid var(--remas);
+}
+
+.sritis-eilute .sritis-ikona {
+  text-align: center;
+  padding-inline: 4px;
+}
+
+.sritis-veiksmai {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+/* Telefone — dvi eilutės: ikona ir pavadinimas; atsakingas ir veiksmai. */
+@media (max-width: 640px) {
+  .sritis-eilute {
+    grid-template-columns: 48px minmax(0, 1fr) auto;
+  }
+
+  .sritis-eilute input:not(.sritis-ikona) {
+    grid-column: 2 / 4;
+  }
+
+  .sritis-eilute select {
+    grid-column: 1 / 3;
+  }
+
+  .sritis-veiksmai {
+    grid-column: 3;
+  }
+}
+
+/* ---------- Kas naudoja įrenginį ---------- */
+
+.kas-as-mygtukai {
+  display: grid;
+  gap: 8px;
+}
+
+.kas-as-mygtukai button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 16px;
+}
+
+/* ---------- Žinutė su „Atšaukti“ ---------- */
+
+.zinute {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  z-index: 80;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: max-content;
+  max-width: calc(100vw - 32px);
+  padding: 10px 10px 10px 18px;
+  border-radius: 14px;
+  background: var(--tekstas);
+  color: var(--fonas);
+  font-size: 14px;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.25);
+}
+
+.zinute-veiksmas {
+  flex: none;
+  padding: 6px 12px;
+  background: transparent;
+  color: var(--akcentas-svelnus);
+  border: 1px solid currentColor;
+}
+
+@media (max-width: 720px) {
+  .zinute {
+    bottom: calc(84px + env(safe-area-inset-bottom));
+  }
+}
+
+/* ---------- Pranešimai ---------- */
+
+.pranesimai .kortele-sarasas {
+  display: grid;
+  gap: 10px;
+}
+
+.pranesimai .kortele-sarasas > button,
+.pranesimai-uzblokuota button {
+  justify-self: start;
+}
+
+.pranesimai p {
+  margin: 0;
+}
+
+.pranesimai-ijungta,
+.pranesimai-zinia {
+  color: var(--pirmine);
+  font-weight: 600;
+}
+
+.pranesimai-mygtukai {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pranesimai-uzblokuota {
+  display: grid;
+  gap: 8px;
+}
+
+.pranesimai-tvarka li,
+.pranesimai-irenginiai li {
+  padding: 8px 0;
+}
+
+.pranesimai-tvarka li + li,
+.pranesimai-irenginiai li + li {
+  border-top: 1px solid var(--remas);
+}
+
+.pranesimai-tvarka li {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 10px;
+  font-size: 14px;
+}
+
+.pranesimai-tvarka span {
+  color: var(--silpnas);
+}
+
+.pranesimai-irenginiai li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.pranesimai-irenginiai li > div {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.pranesimai-irenginiai b {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.pranesimai-irenginiai small {
+  color: var(--silpnas);
+  font-size: 12.5px;
+  overflow-wrap: anywhere;
+}
+
+.pranesimai-irenginiai .pranesimai-klaida {
+  color: var(--klaida);
+}
+
+.pranesimai-sis {
+  color: var(--silpnas);
+  font-weight: 400;
+}
+
+/* ---------- Ruoša ---------- */
+
+.ruosa-virsus {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ruosa-virsus p {
+  margin: 0;
+  flex: 1 1 220px;
+}
+
+.ruosa-dazniai {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.ruosa-dazniai input {
+  width: 72px;
+}
+
+.ruosa-nariai {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ruosa-nariai button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px 6px 6px;
+  border-radius: 999px;
+}
+
+.kas-uz-ka-tinklelis {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+.kas-uz-ka-kortele {
+  display: grid;
+  gap: 4px;
+  padding: 10px 12px;
+  border: 1px solid var(--remas);
+  border-radius: 10px;
+  background: var(--fonas-2);
+}
+
+/* ---------- Pirkiniai: skyriai, pasiūlymai, be ryšio ---------- */
+
+.pirk-antraste {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.pirk-skyriaus-grupe + .pirk-skyriaus-grupe {
+  margin-top: 8px;
+}
+
+.pirk-skyriaus-pavadinimas {
+  margin: 6px 0 2px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--silpnas);
+}
+
+.pirk-skyrius {
+  max-width: 140px;
+  font-size: 13px;
+}
+
+.pirk-pasiulymai {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.pirk-be-rysio {
+  margin: 0;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: var(--demesio-fonas);
+  color: var(--demesio);
+  font-size: 14px;
+}

@@ -1,0 +1,156 @@
+/* Pastabos apie appsą ir „👎 Netinka“ prie asistento atsakymų. Spalvos — iš App.css kintamųjų. */
+
+.pastabos {
+  display: grid;
+  gap: 14px;
+  max-width: 760px;
+}
+
+.pastabos-nauja {
+  display: grid;
+  gap: 10px;
+}
+
+.pastabos-nauja > p {
+  margin: 0;
+}
+
+.pastabos-nauja > button {
+  justify-self: start;
+}
+
+.pastabos-ivestis {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.pastabos-ivestis textarea {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--remas);
+  border-radius: 10px;
+  background: var(--fonas);
+  color: var(--tekstas);
+  font: inherit;
+  font-size: 16px;
+  resize: vertical;
+}
+
+.pastabos-ivestis .asistento-mikrofonas {
+  flex: none;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border-radius: 999px;
+  font-size: 18px;
+}
+
+.pastabu-sarasas {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.pastaba {
+  display: grid;
+  gap: 6px;
+  padding: 10px 0;
+}
+
+.pastaba + .pastaba {
+  border-top: 1px solid var(--remas);
+}
+
+.pastaba-virsus {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+}
+
+.pastaba-rusis {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.pastaba-tekstas,
+.pastaba-sprendimas {
+  margin: 0;
+  font-size: 15px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.pastaba-sprendimas {
+  color: var(--pajamos);
+  font-size: 14px;
+}
+
+.pastaba-sutvarkyta .pastaba-tekstas,
+.pastaba-atmesta .pastaba-tekstas {
+  color: var(--silpnas);
+}
+
+.pastaba-detales summary {
+  color: var(--silpnas);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.pastaba-detales pre {
+  margin: 6px 0 0;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: var(--fonas-2);
+  font: inherit;
+  font-size: 13px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.pastaba-mygtukai {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* ---------- Asistento lange ---------- */
+
+.asistento-netinka-mygtukas {
+  padding: 2px 8px;
+  border: 0;
+  background: transparent;
+  color: var(--silpnas);
+  font-size: 12.5px;
+  font-weight: 500;
+}
+
+.asistento-netinka {
+  display: grid;
+  gap: 6px;
+  width: min(100%, 420px);
+}
+
+.asistento-netinka textarea {
+  padding: 8px 10px;
+  border: 1px solid var(--remas);
+  border-radius: 10px;
+  background: var(--fonas);
+  color: var(--tekstas);
+  font: inherit;
+  font-size: 16px;
+  resize: none;
+}
+
+.asistento-netinka .veiksmas-mygtukai {
+  margin-top: 0;
+}
+
+.asistento-pazymeta {
+  color: var(--pajamos);
+  font-size: 12.5px;
+}

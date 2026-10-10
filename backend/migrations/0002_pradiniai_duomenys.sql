@@ -1,0 +1,121 @@
+-- Pradiniai bendriniai duomenys: finansų kategorijos, kategorizavimo taisyklės (Lietuvos
+-- parduotuvės, degalinės, komunalinės paslaugos…), darbų sritys ir pirkinių sąrašai.
+-- Šeimos nariai, jų asmeninės finansų grupės (pvz., „Jonas“: Telefonas, Taksi…) ir pajamų
+-- kategorijos („Jonas DU“) bei šeimos pervedimų taisyklė kuriami pagal seima.json:
+--   node scripts/sukurti-seima.mjs   (žr. AGENTS.md)
+--
+-- Kategorijas ir taisykles galima keisti appse (Finansai, Daugiau → Taisyklės).
+
+INSERT INTO categories (id, name, parent_id, type, necessity, sort_order) VALUES
+  (1, 'Komunaliniai', NULL, 'expense', NULL, 10),
+  (2, 'Draudimas', NULL, 'expense', NULL, 20),
+  (3, 'Kreditai', NULL, 'expense', NULL, 30),
+  (4, 'Automobilis', NULL, 'expense', NULL, 40),
+  (5, 'Augintiniai', NULL, 'expense', NULL, 50),
+  (6, 'Bendros išlaidos', NULL, 'expense', NULL, 60),
+  (7, 'Vaikai', NULL, 'expense', NULL, 70),
+  (10, 'Taupymas', NULL, 'expense', 'taupymas', 100),
+  (13, 'Pensijos', NULL, 'expense', 'taupymas', 105),
+  (11, 'Pajamos', NULL, 'income', NULL, 110),
+  (12, 'Vidiniai pervedimai', NULL, 'transfer', NULL, 120);
+
+INSERT INTO categories (name, parent_id, type, necessity, sort_order, subgroup) VALUES
+  ('Būsto administravimas', 1, 'expense', 'butinosios', 10, NULL),
+  ('Elektra ir dujos', 1, 'expense', 'butinosios', 20, NULL),
+  ('Internetas ir TV', 1, 'expense', 'butinosios', 30, NULL),
+  ('Vanduo', 1, 'expense', 'butinosios', 40, NULL),
+  ('Šildymas', 1, 'expense', 'butinosios', 50, NULL),
+  ('Šiukšlės', 1, 'expense', 'butinosios', 60, NULL),
+  ('Automobilio draudimas', 2, 'expense', 'butinosios', 10, NULL),
+  ('Būsto draudimas', 2, 'expense', 'butinosios', 20, NULL),
+  ('Gyvybės draudimas', 2, 'expense', 'butinosios', 30, NULL),
+  ('Sveikatos draudimas', 2, 'expense', 'butinosios', 40, NULL),
+  ('Būsto paskola (grąžinimas)', 3, 'expense', 'butinosios', 10, NULL),
+  ('Būsto paskola (palūkanos)', 3, 'expense', 'butinosios', 20, NULL),
+  ('Automobilio lizingas', 3, 'expense', 'butinosios', 30, NULL),
+  ('Vartojimo kreditas', 3, 'expense', 'butinosios', 40, NULL),
+  ('Kuras', 4, 'expense', 'butinosios', 10, NULL),
+  ('Parkingas', 4, 'expense', 'butinosios', 20, NULL),
+  ('Techninė priežiūra', 4, 'expense', 'butinosios', 30, NULL),
+  ('Plovimas ir kt.', 4, 'expense', 'norai', 40, NULL),
+  ('Baudos', 4, 'expense', 'butinosios', 50, NULL),
+  ('Maistas ir kita', 5, 'expense', 'butinosios', 10, NULL),
+  ('Gydymas', 5, 'expense', 'butinosios', 20, NULL),
+  ('Daiktai', 5, 'expense', 'norai', 30, NULL),
+  ('Maisto produktai (parduotuvės)', 6, 'expense', 'butinosios', 10, NULL),
+  ('Kavinės', 6, 'expense', 'norai', 20, NULL),
+  ('Buities prekės', 6, 'expense', 'butinosios', 30, NULL),
+  ('Vaistai ir vitaminai', 6, 'expense', 'butinosios', 40, NULL),
+  ('Pramogos', 6, 'expense', 'norai', 50, NULL),
+  ('Prenumeratos', 6, 'expense', 'norai', 60, NULL),
+  ('Dovanos ir progos', 6, 'expense', 'norai', 70, NULL),
+  ('Stambūs pirkiniai', 6, 'expense', 'norai', 80, NULL),
+  ('Atostogos – apgyvendinimas', 6, 'expense', 'norai', 90, NULL),
+  ('Atostogos – transportas', 6, 'expense', 'norai', 100, NULL),
+  ('Atostogos – kavinės ir maistas', 6, 'expense', 'norai', 110, NULL),
+  ('Atostogos – bilietai/pramogos', 6, 'expense', 'norai', 120, NULL),
+  ('Kita', 6, 'expense', 'norai', 130, NULL),
+  ('Darželis / mokykla', 7, 'expense', 'butinosios', 10, NULL),
+  ('Būrelis — sportas', 7, 'expense', 'butinosios', 20, 'Būreliai'),
+  ('Būrelis — menai', 7, 'expense', 'butinosios', 30, 'Būreliai'),
+  ('Būrelis — kalbos', 7, 'expense', 'butinosios', 40, 'Būreliai'),
+  ('Drabužiai ir avalynė', 7, 'expense', 'butinosios', 50, NULL),
+  ('Sveikata', 7, 'expense', 'butinosios', 60, NULL),
+  ('Žaislai ir knygos', 7, 'expense', 'norai', 70, NULL),
+  ('Gimtadieniai ir šventės', 7, 'expense', 'norai', 80, NULL),
+  ('Indėlio palūkanos', 11, 'income', NULL, 10, NULL),
+  ('Kita', 11, 'income', NULL, 20, NULL);
+
+INSERT INTO rules (priority, field, operator, value, category_id, owner_category_name, mark_transfer, direction, note, country_scope, amount_min_cents, amount_max_cents) VALUES
+  (8, 'any', 'regex', 'INDĖLIO PALŪKAN|INDELIO PALUKAN', (SELECT id FROM categories WHERE name = 'Indėlio palūkanos' AND parent_id = (SELECT id FROM categories WHERE name = 'Pajamos' AND parent_id IS NULL)), NULL, 0, 'C', 'Indėlio palūkanos', NULL, NULL, NULL),
+  (10, 'any', 'regex', 'Į SAVO SĄSKAITĄ|TARP SAVŲ SĄSKAITŲ|TARP SAVO SĄSKAITŲ', NULL, NULL, 1, NULL, 'Pervedimas tarp savo sąskaitų', NULL, NULL, NULL),
+  (20, 'any', 'regex', 'ATLYGIN|AVANS|DARBO UŽMOK', NULL, '{owner} DU', 0, 'C', 'Atlyginimas keliauja tam, kas jį gavo', NULL, NULL, NULL),
+  (25, 'any', 'regex', 'CIRCLE K|VIADA|ORLEN|NESTE|DEGALIN', (SELECT id FROM categories WHERE name = 'Kavinės' AND parent_id = (SELECT id FROM categories WHERE name = 'Bendros išlaidos' AND parent_id IS NULL)), NULL, 0, 'D', 'Smulkus pirkinys degalinėje — maistas, ne kuras', NULL, NULL, 1000),
+  (26, 'any', 'regex', 'CIRCLE K|VIADA|ORLEN|NESTE|\bABC\b|SHELL|ALEXELA|\bST1\b|OLEREX|TANK\b|DEGALIN|PARKING|PARKNER|EASYPARK|PRAAMID|TAXI|BOLT|UBER|LINE M/S|FERRY|RAIL|TRAIN|\bBUS\b', (SELECT id FROM categories WHERE name = 'Atostogos – transportas' AND parent_id = (SELECT id FROM categories WHERE name = 'Bendros išlaidos' AND parent_id IS NULL)), NULL, 0, 'D', 'Transporto išlaida užsienyje', 'foreign', NULL, NULL),
+  (27, 'any', 'regex', 'SUPERMARKET|MARKET|GROCER|FOOD|CAFE|KAFE|KOHVIK|RESTAURANT|RESTORAN|RAVINTOLA|BISTRO|PIZZ|\bBAR\b|\bPUB\b|COFFEE|BAKERY|KIOSK|SUPERMERCATO|MERCADONA|CONAD|\bRIMI\b|MAXIMA|\bIKI\b|\bLIDL\b|NORFA|KONSUM|SELVER|PRISMA|KAUPLUS|\bCOOP\b|\bSALE\b|SNABB', (SELECT id FROM categories WHERE name = 'Atostogos – kavinės ir maistas' AND parent_id = (SELECT id FROM categories WHERE name = 'Bendros išlaidos' AND parent_id IS NULL)), NULL, 0, 'D', 'Maistas ar kavinė užsienyje', 'foreign', NULL, NULL),
+  (30, 'any', 'contains', 'KREDITO GRĄŽINIM', (SELECT id FROM categories WHERE name = 'Būsto paskola (grąžinimas)' AND parent_id = (SELECT id FROM categories WHERE name = 'Kreditai' AND parent_id IS NULL)), NULL, 0, NULL, NULL, NULL, NULL, NULL),
+  (31, 'any', 'contains', 'PALŪKANŲ MOKĖJIM', (SELECT id FROM categories WHERE name = 'Būsto paskola (palūkanos)' AND parent_id = (SELECT id FROM categories WHERE name = 'Kreditai' AND parent_id IS NULL)), NULL, 0, NULL, NULL, NULL, NULL, NULL),
+  (32, 'any', 'regex', 'LEASING|LIZING', (SELECT id FROM categories WHERE name = 'Automobilio lizingas' AND parent_id = (SELECT id FROM categories WHERE name = 'Kreditai' AND parent_id IS NULL)), NULL, 0, NULL, NULL, NULL, NULL, NULL),
+  (40, 'any', 'regex', 'ADMI UAB|ADMINISTRAV|BENDRIJ', (SELECT id FROM categories WHERE name = 'Būsto administravimas' AND parent_id = (SELECT id FROM categories WHERE name = 'Komunaliniai' AND parent_id IS NULL)), NULL, 0, NULL, NULL, NULL, NULL, NULL),
+  (41, 'any', 'regex', 'VANDENYS|VANDENTIEK', (SELECT id FROM categories WHERE name = 'Vanduo' AND parent_id = (SELECT id FROM categories WHERE name = 'Komunaliniai' AND parent_id IS NULL)), NULL, 0, NULL, NULL, NULL, NULL, NULL),
+  (42, 'any', 'regex', 'MIESTO GIJOS|ŠILUMOS TINKLAI', (SELECT id FROM categories WHERE name = 'Šildymas' AND parent_id = (SELECT id FROM categories WHERE name = 'Komunaliniai' AND parent_id IS NULL)), NULL, 0, NULL, NULL, NULL, NULL, NULL),
+  (43, 'any', 'regex', 'ENEFIT|\bESO\b|ELEKTRUM', (SELECT id FROM categories WHERE name = 'Elektra ir dujos' AND parent_id = (SELECT id FROM categories WHERE name = 'Komunaliniai' AND parent_id IS NULL)), NULL, 0, NULL, NULL, NULL, NULL, NULL),
+  (44, 'any', 'contains', 'IGNITIS', (SELECT id FROM categories WHERE name = 'Elektra ir dujos' AND parent_id = (SELECT id FROM categories WHERE name = 'Komunaliniai' AND parent_id IS NULL)), NULL, 0, NULL, NULL, NULL, NULL, NULL),
+  (45, 'any', 'regex', 'PENKIŲ KONTINENTŲ|SKYNET', (SELECT id FROM categories WHERE name = 'Internetas ir TV' AND parent_id = (SELECT id FROM categories WHERE name = 'Komunaliniai' AND parent_id IS NULL)), NULL, 0, NULL, NULL, NULL, NULL, NULL),
+  (50, 'any', 'regex', 'CIRCLE K|VIADA|ORLEN|NESTE|DEGALIN', (SELECT id FROM categories WHERE name = 'Kuras' AND parent_id = (SELECT id FROM categories WHERE name = 'Automobilis' AND parent_id IS NULL)), NULL, 0, NULL, NULL, NULL, NULL, NULL),
+  (51, 'any', 'regex', 'UNIPARK|STOVA|PARKING|SKYPARK|PARKAVIM', (SELECT id FROM categories WHERE name = 'Parkingas' AND parent_id = (SELECT id FROM categories WHERE name = 'Automobilis' AND parent_id IS NULL)), NULL, 0, NULL, NULL, NULL, NULL, NULL),
+  (60, 'any', 'regex', 'ZOOBAZE|PET24|\bKIKA\b|ZOO PREKI', (SELECT id FROM categories WHERE name = 'Maistas ir kita' AND parent_id = (SELECT id FROM categories WHERE name = 'Augintiniai' AND parent_id IS NULL)), NULL, 0, NULL, NULL, NULL, NULL, NULL),
+  (61, 'any', 'contains', 'VETERINAR', (SELECT id FROM categories WHERE name = 'Gydymas' AND parent_id = (SELECT id FROM categories WHERE name = 'Augintiniai' AND parent_id IS NULL)), NULL, 0, NULL, NULL, NULL, NULL, NULL),
+  (70, 'any', 'regex', 'MAXIMA|\bLIDL\b|\bIKI\b|\bRIMI\b|NORFA', (SELECT id FROM categories WHERE name = 'Maisto produktai (parduotuvės)' AND parent_id = (SELECT id FROM categories WHERE name = 'Bendros išlaidos' AND parent_id IS NULL)), NULL, 0, NULL, NULL, NULL, NULL, NULL),
+  (71, 'any', 'regex', 'VAISTIN|\bBENU\b|CAMELIA|APOTHEKA', (SELECT id FROM categories WHERE name = 'Vaistai ir vitaminai' AND parent_id = (SELECT id FROM categories WHERE name = 'Bendros išlaidos' AND parent_id IS NULL)), NULL, 0, NULL, NULL, NULL, NULL, NULL),
+  (73, 'any', 'regex', 'SENUKAI|IKEA|JYSK|\bDEPO\b|MOKI[- ]?VE', (SELECT id FROM categories WHERE name = 'Buities prekės' AND parent_id = (SELECT id FROM categories WHERE name = 'Bendros išlaidos' AND parent_id IS NULL)), NULL, 0, NULL, NULL, NULL, NULL, NULL),
+  (74, 'any', 'regex', 'APOLLO|CINAMON|FORUM CINEMAS', (SELECT id FROM categories WHERE name = 'Pramogos' AND parent_id = (SELECT id FROM categories WHERE name = 'Bendros išlaidos' AND parent_id IS NULL)), NULL, 0, NULL, NULL, NULL, NULL, NULL),
+  (80, 'any', 'contains', 'SPOTIFY', (SELECT id FROM categories WHERE name = 'Prenumeratos' AND parent_id = (SELECT id FROM categories WHERE name = 'Bendros išlaidos' AND parent_id IS NULL)), NULL, 0, NULL, NULL, NULL, NULL, NULL),
+  (81, 'any', 'contains', 'NETFLIX', (SELECT id FROM categories WHERE name = 'Prenumeratos' AND parent_id = (SELECT id FROM categories WHERE name = 'Bendros išlaidos' AND parent_id IS NULL)), NULL, 0, NULL, NULL, NULL, NULL, NULL),
+  (82, 'any', 'regex', 'OPENAI|CHATGPT|ANTHROPIC|CLAUDE', (SELECT id FROM categories WHERE name = 'Prenumeratos' AND parent_id = (SELECT id FROM categories WHERE name = 'Bendros išlaidos' AND parent_id IS NULL)), NULL, 0, NULL, NULL, NULL, NULL, NULL),
+  (90, 'any', 'regex', 'BOLT ?FOOD|WOLT', (SELECT id FROM categories WHERE name = 'Kavinės' AND parent_id = (SELECT id FROM categories WHERE name = 'Bendros išlaidos' AND parent_id IS NULL)), NULL, 0, NULL, NULL, NULL, NULL, NULL),
+  (91, 'any', 'regex', 'SUSHI|12EAT|ILUNCH|GREET.MENU|CAFFEINE|KAVIN|RESTORAN|PIZZ', (SELECT id FROM categories WHERE name = 'Kavinės' AND parent_id = (SELECT id FROM categories WHERE name = 'Bendros išlaidos' AND parent_id IS NULL)), NULL, 0, NULL, NULL, NULL, NULL, NULL),
+  (92, 'any', 'regex', 'PICERIJ|BISTRO|KEPYKL|BROOKLYN|NARVESEN|\bBARAS\b|SNABB|MCDONALD|HESBURGER|\bKFC\b', (SELECT id FROM categories WHERE name = 'Kavinės' AND parent_id = (SELECT id FROM categories WHERE name = 'Bendros išlaidos' AND parent_id IS NULL)), NULL, 0, NULL, NULL, NULL, NULL, NULL),
+  (100, 'any', 'regex', 'BOOKING\.C|BKG\*|AIRBNB|HOTEL|CAMPEGGIO|CAMPING|VIEŠBUT', (SELECT id FROM categories WHERE name = 'Atostogos – apgyvendinimas' AND parent_id = (SELECT id FROM categories WHERE name = 'Bendros išlaidos' AND parent_id IS NULL)), NULL, 0, NULL, NULL, NULL, NULL, NULL),
+  (101, 'any', 'regex', 'SUPERMERCATO|MERCADONA|CONAD', (SELECT id FROM categories WHERE name = 'Atostogos – kavinės ir maistas' AND parent_id = (SELECT id FROM categories WHERE name = 'Bendros išlaidos' AND parent_id IS NULL)), NULL, 0, NULL, NULL, NULL, NULL, NULL),
+  (110, 'any', 'regex', 'BOLT\.EU|\bBOLT\b', NULL, 'Taksi', 0, NULL, 'Priskiriama sąskaitos savininkui', NULL, NULL, NULL),
+  (111, 'any', 'regex', 'TELE2|TELIA|BITĖ|\bBITE\b', NULL, 'Telefonas', 0, NULL, 'Priskiriama sąskaitos savininkui', NULL, NULL, NULL),
+  (112, 'any', 'regex', 'TRAFI|VILNIAUS VIEŠASIS|JUDU', NULL, 'Viešasis transportas', 0, NULL, 'Priskiriama sąskaitos savininkui', NULL, NULL, NULL),
+  (200, 'any', 'regex', '^(?!.*(?:GOOGLE|APPLE\.|ITUNES|MICROSOFT|AMAZON|PODCAST|SUBSCRIPTION|PRENUMERAT|REVOLUT|PAYPAL|STRIPE|PAYSERA|WISE\b|PATREON|STEAM|NINTENDO|OPENAI|ANTHROPIC|CLAUDE|NETFLIX|SPOTIFY)).*$', (SELECT id FROM categories WHERE name = 'Atostogos – bilietai/pramogos' AND parent_id = (SELECT id FROM categories WHERE name = 'Bendros išlaidos' AND parent_id IS NULL)), NULL, 0, 'D', 'Neatpažinta išlaida užsienyje — greičiausiai atostogos (be skaitmeninių paslaugų)', 'foreign', NULL, NULL);
+
+-- Darbų sritys. Atsakingus (default_member_id) nustato sukurti-seima.mjs pagal seima.json.
+INSERT INTO task_areas (name, icon, sort_order) VALUES
+  ('Namai', '🏠', 1),
+  ('Vaikai', '🎈', 2),
+  ('Sveikata', '🩺', 3),
+  ('Automobilis', '🚗', 4),
+  ('Augintiniai', '🐾', 5),
+  ('Dokumentai ir mokėjimai', '📄', 6),
+  ('Šventės ir dovanos', '🎁', 7),
+  ('Kelionės', '✈️', 8),
+  ('Kita', '📌', 9);
+
+INSERT INTO shopping_lists (name, sort_order) VALUES
+  ('Maistas', 1),
+  ('Buitis', 2),
+  ('Vaistinė', 3);

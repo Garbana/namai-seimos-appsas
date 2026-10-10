@@ -1,0 +1,96 @@
+/* Claude jungtis: „Daugiau → Claude jungtis“ ir leidimo langas. Spalvos — iš App.css kintamųjų. */
+
+.claude-jungtis {
+  display: grid;
+  gap: 14px;
+  max-width: 760px;
+}
+
+.claude-apie {
+  display: grid;
+  gap: 10px;
+}
+
+.claude-apie > p {
+  margin: 0;
+}
+
+.claude-adresas {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.claude-adresas code {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 10px;
+  border: 1px solid var(--remas);
+  border-radius: 8px;
+  background: var(--fonas-2);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+  user-select: all;
+}
+
+.claude-zingsniai {
+  margin: 0;
+  padding-left: 20px;
+  display: grid;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.claude-jungtys {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.claude-jungtys li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 0;
+}
+
+.claude-jungtys li + li {
+  border-top: 1px solid var(--remas);
+}
+
+.claude-jungtys small {
+  display: block;
+}
+
+/* Leidimo langas */
+
+.claude-galimybes {
+  margin: 0;
+  padding-left: 20px;
+  display: grid;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.claude-ispejimas {
+  margin: 0;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: var(--demesio-fonas);
+  color: var(--demesio);
+  font-size: 14px;
+}
+
+.claude-mygtukai {
+  display: flex;
+  gap: 8px;
+}
+
+.claude-mygtukai button {
+  flex: 1;
+}
+
+.claude-leidimas p {
+  margin: 0;
+}

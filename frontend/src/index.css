@@ -1,0 +1,35 @@
+/*
+ * Bazinis sluoksnis. Spalvos, šriftai ir tarpai gyvena App.css — čia tik tai,
+ * kas galioja visam dokumentui.
+ *
+ * Anksčiau čia stovėjo Vite ruošinio stilius (violetinis akcentas, 56 px
+ * antraštės, centruotas #root su savo spalvomis). Jis kovojo su appso spalvų
+ * sistema: antraštės tamsioje temoje likdavo beveik juodos, o komponentai
+ * turėjo po `text-align: left`, kad atsilaikytų prieš centravimą.
+ */
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+#root {
+  min-height: 100svh;
+}
+
+/* Naršant klaviatūra visada turi matytis, kur esi. */
+:focus-visible {
+  outline: 2px solid var(--akcentas);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

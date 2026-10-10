@@ -1,0 +1,32 @@
+{
+  "seima": "Pavardenių šeima",
+  "nariai": [
+    {
+      "vardas": "Jonas",
+      "pavarde": "Pavardenis",
+      "spalva": "#2a78d6",
+      "el_pastai": ["jonas@example.com"]
+    },
+    {
+      "vardas": "Rūta",
+      "pavarde": "Pavardenė",
+      "spalva": "#1baf7a",
+      "el_pastai": ["ruta@example.com"]
+    },
+    {
+      "vardas": "Ema",
+      "spalva": "#eda100",
+      "vaikas": true
+    }
+  ],
+  "bendras_el_pastas": null,
+  "moduliai": ["finansai", "asistentas", "claude", "google"],
+  "sritys": {
+    "Vaikai": "Rūta",
+    "Automobilis": "Jonas",
+    "Dokumentai ir mokėjimai": "Jonas",
+    "Šventės ir dovanos": "Rūta"
+  },
+  "pasalintos_sritys": [],
+  "pasalintos_finansu_grupes": []
+}

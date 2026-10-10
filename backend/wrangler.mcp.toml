@@ -1,0 +1,28 @@
+# Claude jungtis (MCP) — atskiras Worker'is, NE už Cloudflare Access (Claude serveriai turi
+# prieiti). Apsauga — OAuth: raktą Claude gauna tik žmogui paspaudus „Leisti“ appse.
+# Diegti: npx wrangler deploy -c wrangler.mcp.toml. Vietas <<…>> užpildo `node scripts/konfiguruoti.mjs`.
+name = "namai-claude"
+main = "src/mcp/index.ts"
+compatibility_date = "2026-09-01"
+# Bibliotekai: programų aprašų (CIMD) parsiuntimas tik iš viešo interneto.
+compatibility_flags = ["global_fetch_strictly_public"]
+
+[vars]
+MCP_URL = "https://namai-claude.<<WORKERS_SUBDOMENAS>>.workers.dev"
+APP_URL = "https://namai.<<WORKERS_SUBDOMENAS>>.workers.dev"
+# Tie patys moduliai, kaip appso (wrangler.toml) — Claude mato tik įjungtus.
+MODULIAI = "<<MODULIAI>>"
+
+# Ta pati duomenų bazė, kaip appso.
+[[d1_databases]]
+binding = "DB"
+database_name = "namai-db"
+database_id = "<<D1_ID>>"
+
+# OAuth klientai, leidimai ir raktai (tik maišos).
+[[kv_namespaces]]
+binding = "OAUTH_KV"
+id = "<<KV_OAUTH_ID>>"
+
+[dev]
+port = 8788

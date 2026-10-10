@@ -1,0 +1,420 @@
+/* Asistentas: katinukas kampe, iš jo išsiskleidžiantis pokalbis, veiksmų kortelės ir istorija.
+   Sąsajos spalvos — iš App.css kintamųjų; katinuko — fiksuotos (Katinukas.tsx). */
+
+/* ---------- Katinukas kampe ---------- */
+
+.katinuko-burbulas {
+  position: fixed;
+  right: 16px;
+  bottom: calc(86px + env(safe-area-inset-bottom));
+  z-index: 45;
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  border: 2px solid #f1d2ad;
+  border-radius: 999px;
+  background: radial-gradient(circle at 35% 30%, #fffaf2, #ffe6c7);
+  box-shadow: 0 6px 18px rgb(120 60 20 / 0.28);
+  overflow: hidden;
+  transition: transform 0.15s ease;
+}
+
+.katinuko-burbulas:hover {
+  transform: scale(1.06);
+}
+
+.katinuko-burbulas:active {
+  transform: scale(0.94);
+}
+
+.katinuko-burbulas svg {
+  margin-top: 8px;
+}
+
+@media (min-width: 721px) {
+  .katinuko-burbulas {
+    right: 24px;
+    bottom: 24px;
+    width: 70px;
+    height: 70px;
+  }
+}
+
+/* Telefone — vietos, kad katinukas neuždengtų paskutinių eilučių. */
+@media (max-width: 720px) {
+  main {
+    padding-bottom: calc(156px + env(safe-area-inset-bottom));
+  }
+}
+
+/* Letenėlė pamojuoja kas kelias sekundes. */
+.katinukas.mojuoja .katinuko-letena {
+  transform-box: view-box;
+  transform-origin: 44px 50px;
+  animation: mojuoja 6s ease-in-out infinite;
+}
+
+@keyframes mojuoja {
+  0%,
+  70%,
+  100% {
+    transform: rotate(0deg);
+  }
+  76% {
+    transform: rotate(-16deg);
+  }
+  82% {
+    transform: rotate(4deg);
+  }
+  88% {
+    transform: rotate(-16deg);
+  }
+  94% {
+    transform: rotate(0deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .katinukas.mojuoja .katinuko-letena,
+  .asistentas {
+    animation: none;
+  }
+}
+
+/* ---------- Pokalbio langas ---------- */
+
+.asistento-fonas {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgb(0 0 0 / 0.35);
+}
+
+.asistentas {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  width: 100%;
+  max-width: 600px;
+  height: min(92dvh, 760px);
+  background: var(--puslapis);
+  border-radius: 18px 18px 0 0;
+  box-shadow: 0 -8px 30px rgb(0 0 0 / 0.2);
+  overflow: hidden;
+  transform-origin: calc(100% - 48px) 100%;
+  animation: issiskleidzia 0.22s ease-out;
+}
+
+@keyframes issiskleidzia {
+  from {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+}
+
+/* Kompiuteryje — langas kampe, prie katinuko. */
+@media (min-width: 721px) {
+  .asistento-fonas {
+    justify-content: flex-end;
+    padding: 24px;
+    background: rgb(0 0 0 / 0.15);
+  }
+
+  .asistentas {
+    max-width: 440px;
+    height: min(82vh, 700px);
+    border-radius: 18px;
+    transform-origin: calc(100% - 35px) calc(100% - 35px);
+  }
+}
+
+.asistento-virsus {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px 6px 12px;
+  background: var(--fonas);
+  border-bottom: 1px solid var(--remas);
+  font-size: 16px;
+}
+
+.asistento-pokalbis {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.asistento-vardas {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.asistento-pradzia {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  margin: auto 0;
+  color: var(--silpnas);
+  font-size: 14px;
+  text-align: center;
+}
+
+.asistento-pradzia p {
+  margin: 0;
+}
+
+.asistento-pavyzdziai {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+
+.asistento-pavyzdziai button {
+  border: 1px solid var(--remas);
+  border-radius: 999px;
+  background: var(--fonas);
+  font-weight: 400;
+}
+
+/* ---------- Burbulai ---------- */
+
+.burbulas {
+  max-width: 86%;
+  margin: 0;
+  padding: 9px 13px;
+  border-radius: 16px;
+  font-size: 15px;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.burbulas.zmogaus {
+  align-self: flex-end;
+  background: var(--pirmine);
+  color: var(--ant-pirmines);
+  border-bottom-right-radius: 5px;
+}
+
+.burbulas.asistento {
+  align-self: flex-start;
+  background: var(--fonas);
+  color: var(--tekstas);
+  border: 1px solid var(--remas);
+  border-bottom-left-radius: 5px;
+}
+
+.burbulas.klaidos {
+  align-self: flex-start;
+  background: var(--klaida-fonas);
+  color: var(--klaida);
+}
+
+.burbulas.laukia {
+  color: var(--silpnas);
+}
+
+.burbulas.klausosi {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0.85;
+}
+
+.klausosi-taskas {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: var(--akcentas);
+  animation: klausosi 1s ease-in-out infinite;
+}
+
+@keyframes klausosi {
+  50% {
+    opacity: 0.25;
+    transform: scale(0.7);
+  }
+}
+
+.asistento-zinute {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding-left: 38px;
+}
+
+.asistento-avataras {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: #ffefd9;
+  overflow: hidden;
+}
+
+.asistento-avataras svg {
+  margin-top: 6px;
+}
+
+.asistento-visi {
+  align-self: stretch;
+}
+
+/* ---------- Veiksmo kortelė ---------- */
+
+.veiksmas {
+  display: grid;
+  gap: 3px;
+  width: min(100%, 420px);
+  padding: 11px 13px;
+  background: var(--fonas);
+  border: 1px solid var(--remas);
+  border-left: 4px solid var(--pirmine);
+  border-radius: 12px;
+  font-size: 14px;
+}
+
+.veiksmas-laukia {
+  border-left-color: var(--akcentas);
+}
+
+.veiksmas-klaida {
+  border-left-color: var(--klaida);
+}
+
+.veiksmas-atmesta,
+.veiksmas-pakeista,
+.veiksmas-atsaukta {
+  border-left-color: var(--remas);
+  opacity: 0.65;
+}
+
+.veiksmas-antraste {
+  color: var(--silpnas);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.veiksmas-klaida .veiksmas-antraste {
+  color: var(--klaida);
+}
+
+.veiksmas-pavadinimas {
+  font-size: 15px;
+  overflow-wrap: anywhere;
+}
+
+.veiksmas-eilute {
+  color: var(--tekstas);
+  overflow-wrap: anywhere;
+}
+
+.veiksmas-eilute s {
+  color: var(--silpnas);
+}
+
+.veiksmas-pouzduotys {
+  list-style: none;
+  margin: 2px 0 0;
+  padding: 0;
+  color: var(--silpnas);
+}
+
+.veiksmas-mygtukai {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+/* ---------- Įvedimas ---------- */
+
+.asistento-ivestis {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  padding: 10px 10px calc(10px + env(safe-area-inset-bottom));
+  background: var(--fonas);
+  border-top: 1px solid var(--remas);
+}
+
+.asistento-ivestis textarea {
+  flex: 1;
+  min-width: 0;
+  max-height: 120px;
+  padding: 10px 14px;
+  border: 1px solid var(--remas);
+  border-radius: 20px;
+  background: var(--fonas-2);
+  color: var(--tekstas);
+  font: inherit;
+  font-size: 16px;
+  resize: none;
+  field-sizing: content;
+}
+
+.asistento-ivestis button {
+  flex: none;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border-radius: 999px;
+  font-size: 18px;
+}
+
+.asistento-mikrofonas {
+  background: var(--zyme);
+  color: var(--tekstas);
+}
+
+.asistento-mikrofonas.klauso {
+  background: var(--akcentas);
+  color: var(--ant-pirmines);
+}
+
+/* ---------- Istorija ---------- */
+
+.asistento-istorija {
+  display: grid;
+  gap: 12px;
+  max-width: 760px;
+}
+
+.asistento-istorija .kortele-sarasas {
+  display: grid;
+  gap: 8px;
+}
+
+.asistento-istorija .kortele-sarasas > button {
+  justify-self: start;
+}
+
+.asistento-islaidos {
+  margin: 0;
+  font-size: 14px;
+}
+
+.asistento-irasas {
+  justify-items: start;
+}
+
+.asistento-irasas .burbulas.zmogaus {
+  justify-self: end;
+}

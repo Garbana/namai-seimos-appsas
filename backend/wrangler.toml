@@ -1,0 +1,44 @@
+name = "namai"
+main = "src/index.ts"
+compatibility_date = "2026-09-01"
+
+# Vietas <<…>> užpildo `node scripts/konfiguruoti.mjs` (žr. docs/DIEGIMAS.md).
+
+# Tas pats Worker'is serveruoja ir frontend'ą (sukompiliuotą Vite išvestį),
+# ir /api maršrutus. Vienas adresas = viena Access apsauga, be CORS.
+[assets]
+directory = "../frontend/dist"
+binding = "ASSETS"
+not_found_handling = "single-page-application"
+# /assets/* praleidžiam per Worker'į, kad nerastas failas grąžintų 404,
+# o ne index.html — kitaip klaidingas atsakymas įstrigtų naršyklės keše metams.
+run_worker_first = ["/api/*", "/assets/*"]
+
+[vars]
+# Šeimos pavadinimas — rodomas šoninėje juostoje (pvz., „Pavardeniai“).
+SEIMA = "<<SEIMA>>"
+# Įjungti neprivalomi moduliai kableliais: finansai, asistentas, claude, google.
+# Darbai, kalendorius, pirkiniai, ruoša, projektai ir pranešimai veikia visada.
+MODULIAI = "<<MODULIAI>>"
+# Šio appso adresas (be „/“ gale) — pranešimams (VAPID) ir nuorodoms.
+APP_URL = "https://namai.<<WORKERS_SUBDOMENAS>>.workers.dev"
+# Claude jungties Worker'is (wrangler.mcp.toml) — į jį grąžinama po leidimo (src/claude.ts).
+MCP_URL = "https://namai-claude.<<WORKERS_SUBDOMENAS>>.workers.dev"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "namai-db"
+database_id = "<<D1_ID>>"
+
+# Atsarginės kopijos (savaitinės ir rankinės), žr. src/backups.ts.
+[[kv_namespaces]]
+binding = "BACKUPS"
+id = "<<KV_BACKUPS_ID>>"
+
+# Kas sekmadienį 02:00 UTC (Vilniuje 4–5 val. ryto) — atsarginė kopija; kas minutę —
+# pranešimai, finansų terminai, Google kalendorius. Pirmasis turi sutapti su BACKUP_CRON index.ts.
+[triggers]
+crons = ["0 2 * * SUN", "* * * * *"]
+
+[dev]
+port = 8787

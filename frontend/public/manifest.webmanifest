@@ -1,0 +1,39 @@
+{
+  "name": "Namai",
+  "short_name": "Namai",
+  "description": "Šeimos namai: darbai, pirkiniai ir finansai",
+  "lang": "lt",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f7f8fa",
+  "theme_color": "#1b1f24",
+  "shortcuts": [
+    {
+      "name": "Pasakyk",
+      "short_name": "Pasakyk",
+      "description": "Iškart pradeda klausytis — pasakyk, ką reikia padaryti",
+      "url": "/?asistentas=balsu",
+      "icons": [{ "src": "/ikona-192.png", "sizes": "192x192", "type": "image/png" }]
+    }
+  ],
+  "icons": [
+    {
+      "src": "/ikona-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/ikona-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/ikona-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

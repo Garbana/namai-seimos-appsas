@@ -1,0 +1,265 @@
+/* Šeimos kalendorius. Spalvos — iš App.css kintamųjų, dalyvio — jo spalva (inline). */
+
+.kalendorius {
+  display: grid;
+  gap: 12px;
+  max-width: 860px;
+}
+
+.kal-virsus {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.kal-menuo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.kal-menuo b {
+  min-width: 128px;
+  text-align: center;
+  font-size: 17px;
+}
+
+.kal-valdikliai {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.kal-valdikliai .perjungiklis {
+  overflow-x: auto;
+}
+
+.kal-taskas {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 5px;
+  border-radius: 999px;
+}
+
+.kal-google {
+  justify-self: start;
+  font-size: 14px;
+}
+
+.kal-google.klaida {
+  color: var(--demesio);
+}
+
+/* ---------- Mėnuo ---------- */
+
+.kal-tinklelis {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 3px;
+  padding: 8px;
+  border-radius: 14px;
+  background: var(--fonas);
+  box-shadow: var(--seselis);
+}
+
+.kal-savaites-diena {
+  padding: 2px 0 6px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--silpnas);
+}
+
+.kal-langelis {
+  display: grid;
+  align-content: start;
+  justify-items: center;
+  gap: 3px;
+  min-height: 54px;
+  padding: 5px 2px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--tekstas);
+}
+
+.kal-langelis.kitas {
+  color: var(--silpnas);
+  opacity: 0.55;
+}
+
+.kal-langelis.siandien .kal-skaicius {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: var(--pirmine);
+  color: var(--ant-pirmines);
+}
+
+.kal-langelis.pasirinkta {
+  border-color: var(--pirmine);
+  background: var(--pirmine-svelni);
+}
+
+.kal-skaicius {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 24px;
+}
+
+.kal-zymes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2px;
+  max-width: 100%;
+}
+
+.kal-juostele {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+}
+
+.kal-juostele.uzduotis {
+  background: transparent;
+  border: 1.5px solid var(--silpnas);
+}
+
+.kal-daugiau {
+  font-size: 10px;
+  color: var(--silpnas);
+}
+
+/* ---------- Diena ir sąrašas ---------- */
+
+.kal-diena {
+  display: grid;
+  gap: 6px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: var(--fonas);
+  box-shadow: var(--seselis);
+}
+
+.kal-diena.siandien {
+  outline: 2px solid var(--pirmine-svelni);
+}
+
+.kal-diena header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.kal-diena h3 {
+  flex: 1;
+  margin: 0;
+  font-size: 15px;
+}
+
+.kal-zyme {
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--pirmine);
+  color: var(--ant-pirmines);
+  font-size: 12px;
+}
+
+.kal-diena .tuscia {
+  margin: 0;
+  text-align: left;
+}
+
+.kal-sarasas {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.kal-ivykis {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 0;
+  border-left: 4px solid var(--pirmine);
+  border-radius: 8px;
+  background: var(--fonas-2);
+  color: var(--tekstas);
+  text-align: left;
+}
+
+.kal-uzduotis {
+  border-left-color: var(--remas);
+  background: transparent;
+}
+
+.kal-laikas {
+  min-width: 46px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.kal-tekstas {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.kal-tekstas b {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.kal-tekstas small {
+  color: var(--silpnas);
+  font-size: 13px;
+}
+
+.kal-uzduotis .kal-tekstas b {
+  font-weight: 500;
+}
+
+/* ---------- Langas ---------- */
+
+.ivykio-visa-diena {
+  align-self: end;
+  flex-direction: row !important;
+  align-items: center;
+}
+
+.ivykio-klausimas {
+  display: grid;
+  gap: 8px;
+}
+
+.ivykio-klausimas p {
+  margin: 0;
+  font-weight: 600;
+}
+
+.google-adresas {
+  display: grid;
+  gap: 6px;
+}
+
+/* ---------- Šiandien ---------- */
+
+.siandien-ivykiai .kal-sarasas {
+  margin-top: 4px;
+}
+
+.ivykio-google {
+  justify-self: start;
+  font-size: 14px;
+}
